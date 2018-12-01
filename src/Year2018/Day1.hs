@@ -29,5 +29,6 @@ ignoreNewbies = go mempty
       where
         rest = go (x `insert` seen) xs
 
+-- | Haskell eats infinity for breakfast.
 solution2 :: IO Int
 solution2 = head . ignoreNewbies . scanl (+) 0 . cycle <$> readSequence
