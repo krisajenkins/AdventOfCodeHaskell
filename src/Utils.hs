@@ -2,6 +2,10 @@
 
 module Utils where
 
+import qualified Data.List as List
+import Data.Map (Map, unionWith, unionsWith)
+import qualified Data.Map as Map
+import Data.Monoid (Sum(Sum), getSum)
 import Data.Void (Void)
 import Paths_adventofcode (getDataFileName)
 import Text.Megaparsec (ParsecT, runParserT)
@@ -17,3 +21,29 @@ simpleParse datafile parser = do
 
 integer :: ParsecT Void String IO Int
 integer = signed (pure ()) (lexeme (pure ()) decimal)
+
+frequency :: Ord a => [a] -> Map a Int
+frequency =
+  fmap getSum . unionsWith (<>) . fmap (`Map.singleton` Sum 1)
+
+editDistance :: Eq a => [a] -> [a] -> Int
+editDistance xs ys = editD 0 0
+  where
+    xss = List.tails xs
+    yss = List.tails ys
+    tbl =
+      Map.fromList
+        [ ((i, j), editD' i j)
+        | i <- [0 .. length xss - 1]
+        , j <- [0 .. length yss - 1]
+        ]
+    editD i j = tbl Map.! (i, j)
+    editD' i j =
+      case (xss !! i, yss !! j) of
+        ([], ys) -> length ys
+        (xs, []) -> length xs
+        (x:xs, y:ys)
+          | x == y -> editD (i + 1) (j + 1)
+          | otherwise ->
+            1 +
+            minimum [editD (i + 1) j, editD i (j + 1), editD (i + 1) (j + 1)]

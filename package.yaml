@@ -26,6 +26,7 @@ dependencies:
 - comonad
 - containers
 - free
+- foldl
 - lens
 - megaparsec
 - recursion-schemes
