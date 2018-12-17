@@ -26,13 +26,18 @@ dependencies:
 - bytestring
 - comonad
 - containers
-- free
 - foldl
+- free
 - lens
 - megaparsec
+- mtl
+- newtype-generics
 - recursion-schemes
+- safe
 - split
+- tardis
 - text
+- time
 
 library:
   source-dirs: src
