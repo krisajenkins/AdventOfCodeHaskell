@@ -38,6 +38,7 @@ dependencies:
 - tardis
 - text
 - time
+- transformers
 
 library:
   source-dirs: src
