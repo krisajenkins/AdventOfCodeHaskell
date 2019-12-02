@@ -2,6 +2,7 @@
 
 module Utils where
 
+import Control.Monad.Except (ExceptT, MonadError, runExceptT, throwError)
 import qualified Data.List as List
 import Data.Map (Map, unionsWith)
 import qualified Data.Map as Map
@@ -46,3 +47,10 @@ editDistance xs ys = editD 0 0
           | otherwise ->
             1 +
             minimum [editD (i + 1) j, editD i (j + 1), editD (i + 1) (j + 1)]
+
+mapError :: MonadError f m => (e -> f) -> ExceptT e m a -> m a
+mapError f action = do
+  result <- runExceptT action
+  case result of
+    Left e -> throwError (f e)
+    Right v -> pure v
