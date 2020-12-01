@@ -60,7 +60,7 @@ readSequence = simpleParse "data/Year2018/Day3.txt" (parser `sepEndBy` eol)
 weaveRug :: [Patch] -> Map (Int, Int) (Set PatchId)
 weaveRug = foldl applyPatch Map.empty
 
-extractOverlaps :: Ord a => [Set a] -> [Set a]
+extractOverlaps :: [Set a] -> [Set a]
 extractOverlaps = filter (\pIds -> Set.size pIds > 1)
 
 solution1 :: IO Int
