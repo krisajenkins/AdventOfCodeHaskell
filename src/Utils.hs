@@ -20,7 +20,7 @@ simpleParse datafile parser = do
     Left err -> fail $ show err
     Right value -> pure value
 
-integer :: ParsecT Void String IO Int
+integer :: ParsecT Void String m Int
 integer = signed (pure ()) (lexeme (pure ()) decimal)
 
 frequency :: Ord a => [a] -> Map a Int
