@@ -51,7 +51,7 @@ library:
     - -Widentities
 
 tests:
-  adventofcode-test:
+  adventofcode:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:

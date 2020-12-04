@@ -10,4 +10,4 @@ spec :: Spec
 spec =
   describe "solutions" $ do
     it "solution1 " $ solution1 >>= (`shouldBe` 118223)
-    it "solution2 " $ solution2 >>= (`shouldBe` (Set.singleton (PatchId 412)))
+    it "solution2 " $ solution2 >>= (`shouldBe` Set.singleton (PatchId 412))

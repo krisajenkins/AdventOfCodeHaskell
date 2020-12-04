@@ -6,9 +6,8 @@ module Year2020.Day2 where
 import           Control.Monad        (void)
 import           Data.Void            (Void)
 import           Safe                 (at)
-import           Text.Megaparsec      (ParsecT, eof, manyTill)
-import           Text.Megaparsec.Char (anyChar, char, eol, letterChar, space,
-                                       string)
+import           Text.Megaparsec      (ParsecT, sepEndBy, some)
+import           Text.Megaparsec.Char (char, eol, letterChar, space, string)
 import           Utils                (integer, simpleParse)
 
 data Entry =
@@ -28,11 +27,11 @@ parseEntry = do
   space
   check <- letterChar
   void $ string ": "
-  password <- manyTill anyChar eol
+  password <- some letterChar
   pure Entry {..}
 
 readSequence :: IO [Entry]
-readSequence = simpleParse "data/Year2020/Day2.txt" (manyTill parseEntry eof)
+readSequence = simpleParse "data/Year2020/Day2.txt" (parseEntry `sepEndBy` eol)
 
 isValidFrequency :: Entry -> Bool
 isValidFrequency Entry {..} =
@@ -43,8 +42,7 @@ solution1 :: IO Int
 solution1 = length . filter isValidFrequency <$> readSequence
 
 isValidPosition :: Entry -> Bool
-isValidPosition Entry {..} =
-  test lowerBound `xor` test upperBound
+isValidPosition Entry {..} = test lowerBound `xor` test upperBound
   where
     test bound = check == (password `at` (bound - 1))
 

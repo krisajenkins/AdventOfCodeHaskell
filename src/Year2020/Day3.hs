@@ -42,13 +42,11 @@ countTrees :: Int -> Map -> Int
 countTrees skipX puzzle =
   let skiid = ski skipX puzzle
       line = map head skiid
-      trees = filter ((==) Tree) line
+      trees = filter (Tree ==) line
    in length trees
 
 solution1 :: IO Int
-solution1 = do
-  puzzle <- readSequence
-  pure $ countTrees 3 puzzle
+solution1 = countTrees 3 <$> readSequence
 
 solution2 :: IO Int
 solution2 = do
