@@ -26,6 +26,7 @@ dependencies:
 - bytestring
 - comonad
 - containers
+- extra
 - foldl
 - free
 - lens
