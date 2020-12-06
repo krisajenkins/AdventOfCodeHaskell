@@ -13,15 +13,12 @@ spec =
     it "Decode Boarding Pass" $ do
       ((zeroBits `setBit` 0)) `shouldBe` (1 :: Int)
       (shift (zeroBits `setBit` 0) 2) `shouldBe` (4 :: Int)
-      decodeBoardingPass "BFFFBBFRRR" `shouldBe`
-        Seat {row = 70, column = 7, seatId = 567}
-      decodeBoardingPass "FFFBBBFRRR" `shouldBe`
-        Seat {row = 14, column = 7, seatId = 119}
-      decodeBoardingPass "BBFFBBFRLL" `shouldBe`
-        Seat {row = 102, column = 4, seatId = 820}
+      decodeBoardingPass "BFFFBBFRRR" `shouldBe` 567
+      decodeBoardingPass "FFFBBBFRRR" `shouldBe` 119
+      decodeBoardingPass "BBFFBBFRLL" `shouldBe` 820
     it "Part 1" $ do
       answer1 <- solution1
-      answer1 `shouldBe` Seat {row = 124, column = 4, seatId = 996}
+      answer1 `shouldBe` 996
     it "Part 2" $ do
       answer2 <- solution2
       answer2 `shouldBe` Just 671
