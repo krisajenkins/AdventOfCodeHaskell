@@ -24,8 +24,7 @@ import Text.Megaparsec.Char (space)
 import Utils (integer, simpleParse)
 
 data Tree a =
-  Node [a]
-       [Tree a]
+  Node [a] [Tree a]
   deriving (Show, Eq, Functor)
 
 ------------------------------------------------------------
@@ -33,8 +32,7 @@ data Tree a =
 -- variable and 2) the `List` of children replaced with an arbitrary
 -- container of children.
 data TreeF a f r =
-  NodeF a
-        (f r)
+  NodeF a (f r)
   deriving (Show, Eq, Functor)
 
 type instance (Base (Tree a)) = TreeF [a] []

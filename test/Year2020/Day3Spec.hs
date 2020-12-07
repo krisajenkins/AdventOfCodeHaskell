@@ -4,10 +4,10 @@ module Year2020.Day3Spec
   ( spec
   ) where
 
-import qualified Data.Sequence   as Seq
-import           Test.Hspec      (Spec, describe, it, shouldBe)
-import           Test.QuickCheck (property, (===))
-import           Year2020.Day3
+import qualified Data.Sequence as Seq
+import Test.Hspec (Spec, describe, it, shouldBe)
+import Test.QuickCheck ((===), property)
+import Year2020.Day3
 
 spec :: Spec
 spec =

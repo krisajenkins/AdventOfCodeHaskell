@@ -2,16 +2,15 @@
 
 module Utils where
 
-import           Control.Monad.Except       (ExceptT, MonadError, runExceptT,
-                                             throwError)
-import qualified Data.List                  as List
-import           Data.Map                   (Map, unionsWith)
-import qualified Data.Map                   as Map
-import           Data.Monoid                (Sum (Sum), getSum)
-import           Data.Void                  (Void)
-import           Paths_adventofcode         (getDataFileName)
-import           Text.Megaparsec            (ParsecT, runParserT)
-import           Text.Megaparsec.Char.Lexer (decimal, lexeme, signed)
+import Control.Monad.Except (ExceptT, MonadError, runExceptT, throwError)
+import qualified Data.List as List
+import Data.Map (Map, unionsWith)
+import qualified Data.Map as Map
+import Data.Monoid (Sum(Sum), getSum)
+import Data.Void (Void)
+import Paths_adventofcode (getDataFileName)
+import Text.Megaparsec (ParsecT, runParserT)
+import Text.Megaparsec.Char.Lexer (decimal, lexeme, signed)
 
 type Parser = ParsecT Void String
 
@@ -55,5 +54,5 @@ mapError :: MonadError f m => (e -> f) -> ExceptT e m a -> m a
 mapError f action = do
   result <- runExceptT action
   case result of
-    Left e  -> throwError (f e)
+    Left e -> throwError (f e)
     Right v -> pure v

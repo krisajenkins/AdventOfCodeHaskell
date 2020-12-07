@@ -6,18 +6,16 @@ module Year2019.Day1
   , solution2
   ) where
 
-import           Data.Char            (isLower, toUpper)
-import           Data.Foldable        (traverse_)
-import           Data.Function        (fix)
-import           Data.Functor         (($>))
-import           Data.List            (sort, sortOn, unfoldr)
-import           Data.Time            (UTCTime, defaultTimeLocale, parseTimeM)
-import           Data.Void            (Void)
-import           Text.Megaparsec      (ParsecT, between, many, manyTill,
-                                       sepEndBy, (<|>))
-import           Text.Megaparsec.Char (anyChar, char, eol, notChar, space,
-                                       string)
-import           Utils                (integer, simpleParse)
+import Data.Char (isLower, toUpper)
+import Data.Foldable (traverse_)
+import Data.Function (fix)
+import Data.Functor (($>))
+import Data.List (sort, sortOn, unfoldr)
+import Data.Time (UTCTime, defaultTimeLocale, parseTimeM)
+import Data.Void (Void)
+import Text.Megaparsec (ParsecT, (<|>), between, many, manyTill, sepEndBy)
+import Text.Megaparsec.Char (anyChar, char, eol, notChar, space, string)
+import Utils (integer, simpleParse)
 
 readSequence :: IO [Int]
 readSequence = simpleParse "data/Year2019/Day1.txt" (integer `sepEndBy` eol)

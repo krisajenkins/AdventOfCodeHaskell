@@ -1,21 +1,21 @@
-{-# LANGUAGE RecordWildCards     #-}
+{-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module Year2020.Day2 where
 
-import           Control.Monad        (void)
-import           Data.Void            (Void)
-import           Safe                 (at)
-import           Text.Megaparsec      (ParsecT, sepEndBy, some)
-import           Text.Megaparsec.Char (char, eol, letterChar, space, string)
-import           Utils                (integer, simpleParse)
+import Control.Monad (void)
+import Data.Void (Void)
+import Safe (at)
+import Text.Megaparsec (ParsecT, sepEndBy, some)
+import Text.Megaparsec.Char (char, eol, letterChar, space, string)
+import Utils (integer, simpleParse)
 
 data Entry =
   Entry
     { lowerBound :: Int
     , upperBound :: Int
-    , check      :: Char
-    , password   :: String
+    , check :: Char
+    , password :: String
     }
   deriving (Show, Eq)
 
@@ -47,9 +47,9 @@ isValidPosition Entry {..} = test lowerBound `xor` test upperBound
     test bound = check == (password `at` (bound - 1))
 
 xor :: Bool -> Bool -> Bool
-xor True True   = False
-xor True False  = True
-xor False True  = True
+xor True True = False
+xor True False = True
+xor False True = True
 xor False False = False
 
 solution2 :: IO Int

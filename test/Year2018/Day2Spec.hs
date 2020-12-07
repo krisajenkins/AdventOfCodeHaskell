@@ -9,4 +9,5 @@ spec :: Spec
 spec =
   describe "solutions" $ do
     it "solution1 " $ solution1 >>= (`shouldBe` 6972)
-    it "solution2 " $ solution2 >>= (`shouldBe` [("ei", "aixwcbzrmdvpsjfgllthdyoqe")])
+    it "solution2 " $
+      solution2 >>= (`shouldBe` [("ei", "aixwcbzrmdvpsjfgllthdyoqe")])

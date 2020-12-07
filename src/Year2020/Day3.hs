@@ -2,10 +2,10 @@
 
 module Year2020.Day3 where
 
-import           Data.Functor         (($>))
-import           Text.Megaparsec      (sepEndBy, some, (<|>))
-import           Text.Megaparsec.Char (char, eol)
-import           Utils                (Parser, simpleParse)
+import Data.Functor (($>))
+import Text.Megaparsec ((<|>), sepEndBy, some)
+import Text.Megaparsec.Char (char, eol)
+import Utils (Parser, simpleParse)
 
 data Land
   = Tree
@@ -36,7 +36,7 @@ readSequence = simpleParse "data/Year2020/Day3.txt" (parseRow `sepEndBy` eol)
 
 showLand :: Land -> Char
 showLand Ground = '.'
-showLand Tree   = '#'
+showLand Tree = '#'
 
 countTrees :: Int -> Map -> Int
 countTrees skipX puzzle =

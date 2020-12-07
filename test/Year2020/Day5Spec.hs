@@ -2,10 +2,10 @@ module Year2020.Day5Spec
   ( spec
   ) where
 
-import           Data.Bits
+import Data.Bits
 import qualified Data.Sequence as Seq
-import           Test.Hspec    (Spec, describe, it, shouldBe)
-import           Year2020.Day5
+import Test.Hspec (Spec, describe, it, shouldBe)
+import Year2020.Day5
 
 spec :: Spec
 spec =

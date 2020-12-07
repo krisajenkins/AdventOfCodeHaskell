@@ -76,20 +76,23 @@ type Visited = Set Char
 data Instruction
   = AddToQueue [(Char, Int)]
   | ProcessQueue
-  | Completed Int
-              Char
+  | Completed Int Char
   | Done
   deriving (Show, Eq)
 
-data SchedulerState = SchedulerState
-  { _schedulerGraph :: Graph
-  , _schedulerVisited :: Visited
-  } deriving (Show, Eq)
+data SchedulerState =
+  SchedulerState
+    { _schedulerGraph :: Graph
+    , _schedulerVisited :: Visited
+    }
+  deriving (Show, Eq)
 
-data WorkerState = WorkerState
-  { _workerQueue :: Queue
-  , _workerWorkers :: [Worker]
-  } deriving (Show, Eq)
+data WorkerState =
+  WorkerState
+    { _workerQueue :: Queue
+    , _workerWorkers :: [Worker]
+    }
+  deriving (Show, Eq)
 
 makeLenses ''SchedulerState
 

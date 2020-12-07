@@ -3,8 +3,8 @@ module Year2020.Day6Spec
   ) where
 
 import qualified Data.Sequence as Seq
-import           Test.Hspec    (Spec, describe, it, shouldBe)
-import           Year2020.Day6
+import Test.Hspec (Spec, describe, it, shouldBe)
+import Year2020.Day6
 
 spec :: Spec
 spec =

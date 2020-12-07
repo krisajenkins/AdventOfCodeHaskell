@@ -5,11 +5,11 @@ module Year2020.Day6
   , solution2
   ) where
 
-import           Data.Maybe           (fromMaybe)
-import qualified Data.Set             as Set
-import           Text.Megaparsec      (sepEndBy, some)
-import           Text.Megaparsec.Char (eol, letterChar)
-import           Utils                (Parser, simpleParse)
+import Data.Maybe (fromMaybe)
+import qualified Data.Set as Set
+import Text.Megaparsec (sepEndBy, some)
+import Text.Megaparsec.Char (eol, letterChar)
+import Utils (Parser, simpleParse)
 
 type Group = [String]
 
@@ -29,7 +29,7 @@ tallyGroup :: Group -> Int
 tallyGroup =
   Set.size . fromMaybe Set.empty . foldl f Nothing . fmap Set.fromList
   where
-    f Nothing   = Just
+    f Nothing = Just
     f (Just xs) = Just . Set.intersection xs
 
 solution2 :: IO Int

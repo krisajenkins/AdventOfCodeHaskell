@@ -1,18 +1,25 @@
-{-# LANGUAGE LambdaCase          #-}
-{-# LANGUAGE OverloadedStrings   #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module Year2020.Day4 where
 
-import           Control.Monad        (guard, void)
-import           Data.Map             (Map)
-import qualified Data.Map             as Map
-import qualified Data.Set             as Set
-import           Text.Megaparsec      (choice, sepEndBy, some, try, (<|>))
-import           Text.Megaparsec.Char (alphaNumChar, char, digitChar, eol,
-                                       hexDigitChar, letterChar, spaceChar,
-                                       string)
-import           Utils                (Parser, integer, simpleParse)
+import Control.Monad (guard, void)
+import Data.Map (Map)
+import qualified Data.Map as Map
+import qualified Data.Set as Set
+import Text.Megaparsec ((<|>), choice, sepEndBy, some, try)
+import Text.Megaparsec.Char
+  ( alphaNumChar
+  , char
+  , digitChar
+  , eol
+  , hexDigitChar
+  , letterChar
+  , spaceChar
+  , string
+  )
+import Utils (Parser, integer, simpleParse)
 
 data ValidatedField
   = Valid String

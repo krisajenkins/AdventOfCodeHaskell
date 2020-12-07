@@ -2,13 +2,13 @@
 
 module Year2020.Day5 where
 
-import           Data.Bits            (setBit, shift, zeroBits)
-import           Data.List            (sort)
-import qualified Data.Set             as Set
-import           Safe                 (headMay)
-import           Text.Megaparsec      (sepEndBy, some)
-import           Text.Megaparsec.Char (eol, letterChar)
-import           Utils                (simpleParse)
+import Data.Bits (setBit, shift, zeroBits)
+import Data.List (sort)
+import qualified Data.Set as Set
+import Safe (headMay)
+import Text.Megaparsec (sepEndBy, some)
+import Text.Megaparsec.Char (eol, letterChar)
+import Utils (simpleParse)
 
 decodeBoardingPass :: String -> Int
 decodeBoardingPass = foldl (f . flip shift 1) zeroBits
@@ -16,7 +16,7 @@ decodeBoardingPass = foldl (f . flip shift 1) zeroBits
     f :: Int -> Char -> Int
     f n 'B' = n `setBit` 0
     f n 'R' = n `setBit` 0
-    f n _   = n
+    f n _ = n
 
 readSequence :: IO [String]
 readSequence =

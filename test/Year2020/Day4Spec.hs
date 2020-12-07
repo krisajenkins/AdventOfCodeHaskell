@@ -4,9 +4,9 @@ module Year2020.Day4Spec
   ( spec
   ) where
 
-import           Test.Hspec      (Spec, describe, it, shouldBe)
-import           Text.Megaparsec (parse)
-import           Year2020.Day4
+import Test.Hspec (Spec, describe, it, shouldBe)
+import Text.Megaparsec (parse)
+import Year2020.Day4
 
 spec :: Spec
 spec =

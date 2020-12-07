@@ -19,13 +19,15 @@ newtype PatchId =
   PatchId Int
   deriving (Show, Eq, Ord)
 
-data Patch = Patch
-  { patchId :: !PatchId
-  , x :: !Int
-  , y :: !Int
-  , w :: !Int
-  , h :: !Int
-  } deriving (Show, Eq, Ord)
+data Patch =
+  Patch
+    { patchId :: !PatchId
+    , x :: !Int
+    , y :: !Int
+    , w :: !Int
+    , h :: !Int
+    }
+  deriving (Show, Eq, Ord)
 
 parser :: ParsecT Void String IO Patch
 parser = do
