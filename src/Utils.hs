@@ -9,17 +9,25 @@ import qualified Data.Map as Map
 import Data.Monoid (Sum(Sum), getSum)
 import Data.Void (Void)
 import Paths_adventofcode (getDataFileName)
-import Text.Megaparsec (ParsecT, runParserT)
+import Text.Megaparsec
+  ( ParseErrorBundle
+  , ParsecT
+  , errorBundlePretty
+  , runParserT
+  , showErrorComponent
+  )
 import Text.Megaparsec.Char.Lexer (decimal, lexeme, signed)
 
 type Parser = ParsecT Void String
+
+type ParseErrors = ParseErrorBundle String Void
 
 simpleParse :: FilePath -> Parser IO a -> IO a
 simpleParse datafile parser = do
   filename <- getDataFileName datafile
   contents <- readFile filename
   runParserT parser filename contents >>= \case
-    Left err -> fail $ show err
+    Left err -> fail $ errorBundlePretty err
     Right value -> pure value
 
 integer :: Parser m Int
