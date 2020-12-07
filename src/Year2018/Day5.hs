@@ -14,12 +14,21 @@ import Data.Functor (($>))
 import Data.List (sort, sortOn)
 import Data.Time (UTCTime, defaultTimeLocale, parseTimeM)
 import Data.Void (Void)
-import Text.Megaparsec (ParsecT, (<|>), between, many, manyTill, sepEndBy)
-import Text.Megaparsec.Char (anyChar, char, eol, notChar, space, string)
+import Text.Megaparsec
+  ( ParsecT
+  , (<|>)
+  , anySingle
+  , anySingleBut
+  , between
+  , many
+  , manyTill
+  , sepEndBy
+  )
+import Text.Megaparsec.Char (char, eol, space, string)
 import Utils (integer, simpleParse)
 
 readSequence :: IO String
-readSequence = simpleParse "data/Year2018/Day5.txt" (manyTill anyChar eol)
+readSequence = simpleParse "data/Year2018/Day5.txt" (manyTill anySingle eol)
 
 react' :: (String -> String) -> String -> String
 react' _ [] = []

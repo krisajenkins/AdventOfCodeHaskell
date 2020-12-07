@@ -23,16 +23,16 @@ import Data.Void (Void)
 import GraphUtils (toGraph)
 import Safe (headMay)
 import Safe.Foldable (minimumMay)
-import Text.Megaparsec (ParsecT, sepEndBy)
-import Text.Megaparsec.Char (anyChar, eol, string)
+import Text.Megaparsec (ParsecT, anySingle, sepEndBy)
+import Text.Megaparsec.Char (eol, string)
 import Utils (simpleParse)
 
 edgeParser :: ParsecT Void String IO (Char, Char)
 edgeParser = do
   void $ string "Step "
-  from <- anyChar
+  from <- anySingle
   void $ string " must be finished before step "
-  to <- anyChar
+  to <- anySingle
   void $ string " can begin."
   pure (from, to)
 

@@ -52,7 +52,7 @@ pop n = do
 
 buildTreeS :: State [Int] (Tree Int)
 buildTreeS = do
-  [x, y] <- pop 2
+  ~[x, y] <- pop 2
   children <- replicateM x buildTreeS
   metadata <- pop y
   pure $ Node metadata children
