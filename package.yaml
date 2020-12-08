@@ -40,6 +40,7 @@ dependencies:
 - text
 - time
 - transformers
+- vector
 
 library:
   source-dirs: src
