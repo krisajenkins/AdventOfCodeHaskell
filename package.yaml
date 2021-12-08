@@ -2,9 +2,9 @@ name:                adventofcode
 version:             0.1.0.0
 github:              "githubuser/adventofcode"
 license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2018 Author name here"
+author:              "Kris Jenkins"
+maintainer:          "krisajenkins@gmail.com"
+copyright:           "2018-2021 Kris Jenkins"
 
 data-files:
 - data/*/Day*.txt
