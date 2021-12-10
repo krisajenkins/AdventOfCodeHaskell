@@ -1,29 +1,15 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module Year2019.Day1
-  ( solution1
-  , totalFullFuelRequirement
-  , solution2
-  ) where
-
-import Data.Char (isLower, toUpper)
-import Data.Foldable (traverse_)
-import Data.Function (fix)
-import Data.Functor (($>))
-import Data.List (sort, sortOn, unfoldr)
-import Data.Time (UTCTime, defaultTimeLocale, parseTimeM)
-import Data.Void (Void)
-import Text.Megaparsec
-  ( ParsecT
-  , (<|>)
-  , anySingle
-  , anySingleBut
-  , between
-  , many
-  , manyTill
-  , sepEndBy
+  ( solution1,
+    totalFullFuelRequirement,
+    solution2,
   )
-import Text.Megaparsec.Char (char, eol, space, string)
+where
+
+import Data.List (unfoldr)
+import Text.Megaparsec (sepEndBy)
+import Text.Megaparsec.Char (eol)
 import Utils (integer, simpleParse)
 
 readSequence :: IO [Int]

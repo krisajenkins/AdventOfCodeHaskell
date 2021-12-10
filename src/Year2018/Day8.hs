@@ -1,21 +1,20 @@
-{-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE DeriveFunctor #-}
-{-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module Year2018.Day8 where
 
 import Control.Monad (replicateM)
-import Control.Monad.Trans.State (State, evalState, gets, put, runState)
+import Control.Monad.Trans.State (State, evalState, gets, put)
 import Data.Functor.Foldable
-  ( Base
-  , Corecursive
-  , Recursive(project)
-  , ana
-  , cata
-  , embed
+  ( Base,
+    Corecursive,
+    Recursive (project),
+    cata,
+    embed,
   )
 import Data.Maybe (fromMaybe)
 import Safe (atMay)
@@ -23,19 +22,20 @@ import Text.Megaparsec (sepEndBy)
 import Text.Megaparsec.Char (space)
 import Utils (integer, simpleParse)
 
-data Tree a =
-  Node [a] [Tree a]
+data Tree a
+  = Node [a] [Tree a]
   deriving (Show, Eq, Functor)
 
 ------------------------------------------------------------
+
 -- | TreeF is just Tree with 1) the recursion replaced with a type
 -- variable and 2) the `List` of children replaced with an arbitrary
 -- container of children.
-data TreeF a f r =
-  NodeF a (f r)
+data TreeF a f r
+  = NodeF a (f r)
   deriving (Show, Eq, Functor)
 
-type instance (Base (Tree a)) = TreeF [a] []
+type instance Base (Tree a) = TreeF [a] []
 
 instance Recursive (Tree a) where
   project (Node metadata children) = NodeF metadata children

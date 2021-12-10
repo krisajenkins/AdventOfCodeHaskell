@@ -1,31 +1,19 @@
-{-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module Year2018.Day5
-  ( solution1
-  , reactAll
-  , solution2
-  ) where
+  ( solution1,
+    reactAll,
+    solution2,
+  )
+where
 
 import Data.Char (isLower, toUpper)
-import Data.Foldable (traverse_)
 import Data.Function (fix)
-import Data.Functor (($>))
-import Data.List (sort, sortOn)
-import Data.Time (UTCTime, defaultTimeLocale, parseTimeM)
-import Data.Void (Void)
-import Text.Megaparsec
-  ( ParsecT
-  , (<|>)
-  , anySingle
-  , anySingleBut
-  , between
-  , many
-  , manyTill
-  , sepEndBy
-  )
-import Text.Megaparsec.Char (char, eol, space, string)
-import Utils (integer, simpleParse)
+import Data.List (sortOn)
+import Text.Megaparsec ( anySingle, manyTill,)
+import Text.Megaparsec.Char (eol)
+import Utils (simpleParse)
 
 readSequence :: IO String
 readSequence = simpleParse "data/Year2018/Day5.txt" (manyTill anySingle eol)
@@ -33,7 +21,7 @@ readSequence = simpleParse "data/Year2018/Day5.txt" (manyTill anySingle eol)
 react' :: (String -> String) -> String -> String
 react' _ [] = []
 react' _ [x] = [x]
-react' f (x:y:rest)
+react' f (x : y : rest)
   | isLower x && toUpper x == y = f rest
   | isLower y && toUpper y == x = f rest
   | otherwise = x : f (y : rest)
