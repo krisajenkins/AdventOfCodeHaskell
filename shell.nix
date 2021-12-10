@@ -12,5 +12,6 @@ pkgs.mkShell
     pkgs.cabal-install
     pkgs.haskell-language-server
     pkgs.libiconv
+    (pkgs.writeScriptBin "testw" "stack test --file-watch --ta '--match Year2021'")
   ];
 }
