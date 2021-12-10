@@ -9,6 +9,7 @@ pkgs.mkShell
 {
   buildInputs = [
     pkgs.stack
+    pkgs.ghc
     pkgs.cabal-install
     pkgs.haskell-language-server
     pkgs.libiconv

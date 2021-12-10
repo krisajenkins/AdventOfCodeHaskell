@@ -44,3 +44,5 @@ packages:
 
 # Extra package databases containing global packages
 # extra-package-dbs: []
+nix:
+  enable: true
