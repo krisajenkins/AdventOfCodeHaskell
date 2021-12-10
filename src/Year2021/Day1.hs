@@ -16,11 +16,14 @@ readSequence = simpleParse "data/Year2021/Day1.txt" (integer `sepEndBy` eol)
 solution1 :: IO Int
 solution1 = do
   depths <- readSequence
-  pure $ length $ filter id $ zipWith (<) depths (tail depths)
+  pure $ countTrue $ zipWith (<) depths (tail depths)
 
 solution2 :: IO Int
 solution2 = do
   depths <- readSequence
   let windows :: [Int]
       windows = zipWith3 (\a b c -> a + b + c) depths (tail depths) (tail (tail depths))
-  pure $ length $ filter id $ zipWith (<) windows (tail windows)
+  pure $ countTrue $ zipWith (<) windows (tail windows)
+
+countTrue :: [Bool] -> Int
+countTrue = length . filter id
