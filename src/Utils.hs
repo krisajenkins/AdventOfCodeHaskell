@@ -1,8 +1,8 @@
-{-# LANGUAGE LambdaCase #-}
-
 module Utils where
 
 import Control.Monad.Except (ExceptT, MonadError, runExceptT, throwError)
+import Data.Bifunctor
+import Data.Functor ((<&>))
 import qualified Data.List as List
 import Data.Map (Map, unionsWith)
 import qualified Data.Map as Map
@@ -21,13 +21,27 @@ type Parser = ParsecT Void String
 
 type ParseErrors = ParseErrorBundle String Void
 
-simpleParse :: FilePath -> Parser IO a -> IO a
-simpleParse datafile parser = do
+_simpleParse ::
+  FilePath ->
+  Parser IO a ->
+  IO (Either ParseErrors a)
+_simpleParse datafile parser = do
   filename <- getDataFileName datafile
   contents <- readFile filename
-  runParserT parser filename contents >>= \case
-    Left err -> fail $ errorBundlePretty err
-    Right value -> pure value
+  runParserT parser filename contents
+
+simpleParse :: FilePath -> Parser IO a -> IO a
+simpleParse datafile parser =
+  _simpleParse datafile parser
+    >>= failOnError
+
+failOnError :: Either ParseErrors a -> IO a
+failOnError (Left err) = fail $ errorBundlePretty err
+failOnError (Right value) = pure value
+
+simpleParseWithError :: FilePath -> Parser IO a -> IO (Either String a)
+simpleParseWithError datafile parser =
+  _simpleParse datafile parser <&> first errorBundlePretty
 
 integer :: Parser m Int
 integer = signed (pure ()) (lexeme (pure ()) decimal)
@@ -63,3 +77,17 @@ mapError f action = do
   case result of
     Left e -> throwError (f e)
     Right v -> pure v
+
+------------------------------------------------------------
+class Functor f => FunctorWithIndex f where
+  mapWithIndex :: (Int -> a -> b) -> f a -> f b
+
+instance FunctorWithIndex [] where
+  mapWithIndex f xs = uncurry f <$> zip [0 ..] xs
+
+------------------------------------------------------------
+class Foldable f => FoldableWithIndex f where
+  foldlWithIndex :: (Int -> b -> a -> b) -> b -> f a -> b
+
+instance FoldableWithIndex [] where
+  foldlWithIndex f acc xs = foldl (\b (index, a) -> f index b a) acc $ zip [0 ..] xs
