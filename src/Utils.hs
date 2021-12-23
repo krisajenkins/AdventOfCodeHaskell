@@ -91,3 +91,8 @@ class Foldable f => FoldableWithIndex f where
 
 instance FoldableWithIndex [] where
   foldlWithIndex f acc xs = foldl (\b (index, a) -> f index b a) acc $ zip [0 ..] xs
+
+------------------------------------------------------------
+applyN :: (Eq n, Num n) => n -> (a -> a) -> a -> a
+applyN 0 _ x = x
+applyN n f x = applyN (n -1) f (f x)
