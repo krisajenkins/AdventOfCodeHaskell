@@ -8,6 +8,7 @@ import Data.Map (Map, unionsWith)
 import qualified Data.Map as Map
 import Data.Monoid (Sum (Sum), getSum)
 import Data.Void (Void)
+import Debug.Trace (trace)
 import Paths_adventofcode (getDataFileName)
 import Text.Megaparsec
   ( ParseErrorBundle,
@@ -96,3 +97,27 @@ instance FoldableWithIndex [] where
 applyN :: (Eq n, Num n) => n -> (a -> a) -> a -> a
 applyN 0 _ x = x
 applyN n f x = applyN (n -1) f (f x)
+
+traceMsg :: Show a => String -> a -> a
+traceMsg msg x = trace (msg <> ": " <> show x) x
+
+flipMap :: Ord v => Map k v -> Map v k
+flipMap =
+  Map.fromList
+    . fmap (\(a, b) -> (b, a))
+    . Map.toList
+
+-- | The magic spreadsheet maker! Give it some functions that can
+--refer to the final result. As long as there are no cycles, it will
+--figure out the correct function resolution order for you!
+--
+-- Tip: Pick a Functor (like list or map) and make the type signature concrete. For example:
+--
+-- loebMap :: Map Int (Map Int a -> a) -> Map Int a
+-- You can build a map of ints to values by supplying a map of ints to
+-- "functions that can look at the final answer to generate their
+-- result."
+--
+-- See https://github.com/quchen/articles/blob/master/loeb-moeb.md for details
+loeb :: Functor f => f (f a -> a) -> f a
+loeb x = go where go = fmap ($ go) x
