@@ -98,65 +98,67 @@ createLookupTable Line {_inputs, _outputs} =
           \m -> do
             one <- join $ lookup 1 m
             three <- join $ lookup 3 m
-            find
+            match
               ( \set ->
                   Set.size set == 6
                     && set `union` one == set
                     && Set.size (set `union` three) == 7
               )
-              _inputs
         ),
-        (1, \_ -> find (\set -> Set.size set == 2) _inputs),
+        (1, \_ -> match (\set -> Set.size set == 2)),
         ( 2,
           \m -> do
             one <- join $ lookup 1 m
             nine <- join $ lookup 9 m
-            find
+            match
               ( \set ->
                   Set.size set == 5
                     && set `union` one /= set
                     && set `union` one /= nine
               )
-              _inputs
         ),
         ( 3,
           \m -> do
             one <- join $ lookup 1 m
-            find
-              (\set -> Set.size set == 5 && set `union` one == set)
-              _inputs
+            match
+              ( \set ->
+                  Set.size set == 5
+                    && set `union` one == set
+              )
         ),
-        (4, \_ -> find (\set -> Set.size set == 4) _inputs),
+        (4, \_ -> match (\set -> Set.size set == 4)),
         ( 5,
           \m -> do
             one <- join $ lookup 1 m
             nine <- join $ lookup 9 m
-            find
+            match
               ( \set ->
                   Set.size set == 5
                     && set `union` one == nine
               )
-              _inputs
         ),
         ( 6,
           \m -> do
             one <- join $ lookup 1 m
             three <- join $ lookup 1 m
-            find
+            match
               ( \set ->
                   Set.size set == 6
                     && set `union` one /= set
                     && Set.size (set `union` three) == 7
               )
-              _inputs
         ),
-        (7, \_ -> find (\set -> Set.size set == 3) _inputs),
-        (8, \_ -> find (\set -> Set.size set == 7) _inputs),
+        (7, \_ -> match (\set -> Set.size set == 3)),
+        (8, \_ -> match (\set -> Set.size set == 7)),
         ( 9,
           \m -> do
             three <- join $ lookup 3 m
-            find
-              (\set -> Set.size set == 6 && set `union` three == set)
-              _inputs
+            match
+              ( \set ->
+                  Set.size set == 6
+                    && set `union` three == set
+              )
         )
       ]
+  where
+    match p = find p _inputs
