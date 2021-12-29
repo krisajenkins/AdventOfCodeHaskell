@@ -1,8 +1,11 @@
+{-# LANGUAGE TemplateHaskell #-}
+
 module Utils where
 
+import Control.Applicative (Alternative ((<|>)), some)
 import Control.Monad.Except (ExceptT, MonadError, runExceptT, throwError)
 import Data.Bifunctor
-import Data.Functor ((<&>))
+import Data.Functor (($>), (<&>))
 import qualified Data.List as List
 import Data.Map (Map, unionsWith)
 import qualified Data.Map as Map
@@ -15,8 +18,11 @@ import Text.Megaparsec
     ParsecT,
     errorBundlePretty,
     runParserT,
+    sepEndBy,
   )
+import Text.Megaparsec.Char (char, eol)
 import Text.Megaparsec.Char.Lexer (decimal, lexeme, signed)
+import Control.Lens (makeLenses)
 
 type Parser = ParsecT Void String
 
@@ -94,7 +100,7 @@ instance FoldableWithIndex [] where
   foldlWithIndex f acc xs = foldl (\b (index, a) -> f index b a) acc $ zip [0 ..] xs
 
 ------------------------------------------------------------
-applyN :: (Eq n, Num n) => n -> (a -> a) -> a -> a
+applyN :: Int -> (a -> a) -> a -> a
 applyN 0 _ x = x
 applyN n f x = applyN (n -1) f (f x)
 
@@ -108,8 +114,8 @@ flipMap =
     . Map.toList
 
 -- | The magic spreadsheet maker! Give it some functions that can
---refer to the final result. As long as there are no cycles, it will
---figure out the correct function resolution order for you!
+-- refer to the final result. As long as there are no cycles, it will
+-- figure out the correct function resolution order for you!
 --
 -- Tip: Pick a Functor (like list or map) and make the type signature concrete. For example:
 --
@@ -121,3 +127,28 @@ flipMap =
 -- See https://github.com/quchen/articles/blob/master/loeb-moeb.md for details
 loeb :: Functor f => f (f a -> a) -> f a
 loeb x = go where go = fmap ($ go) x
+
+singleDigit :: Parser m Integer
+singleDigit =
+  (char '0' $> 0)
+    <|> (char '1' $> 1)
+    <|> (char '2' $> 2)
+    <|> (char '3' $> 3)
+    <|> (char '4' $> 4)
+    <|> (char '5' $> 5)
+    <|> (char '6' $> 6)
+    <|> (char '7' $> 7)
+    <|> (char '8' $> 8)
+    <|> (char '9' $> 9)
+
+data Point = Point {_x :: Int, _y :: Int}
+  deriving (Show, Eq, Ord)
+
+makeLenses ''Point
+
+toGrid :: [[a]] -> Map Point a
+toGrid points = Map.fromList $ concat $ mapWithIndex (\py row -> mapWithIndex (\px value -> (Point px py, value)) row) points
+
+readGrid :: Parser IO a -> FilePath -> IO (Map Point a)
+readGrid p filePath = do
+  toGrid <$> simpleParse filePath (some p `sepEndBy` eol)

@@ -4,13 +4,10 @@
 module Year2021.Day9
   ( solution1,
     solution2,
-    toGrid,
     isLowPoint,
   )
 where
 
-import Control.Applicative (Alternative ((<|>)))
-import Data.Functor (($>))
 import Data.List (sortOn)
 import Data.Map (Map)
 import qualified Data.Map as Map
@@ -18,33 +15,10 @@ import Data.Maybe (catMaybes, fromMaybe)
 import Data.Ord (Down (Down))
 import Data.Set (Set)
 import qualified Data.Set as Set
-import Text.Megaparsec (sepEndBy, some)
-import Text.Megaparsec.Char (char, eol)
-import Utils (Parser, mapWithIndex, simpleParse)
+import Utils (Point (..), readGrid, singleDigit)
 
-data Point = Point {_x :: Int, _y :: Int}
-  deriving (Show, Eq, Ord)
-
-toGrid :: [[Integer]] -> Map Point Integer
-toGrid points = Map.fromList $ concat $ mapWithIndex (\y row -> mapWithIndex (\x value -> (Point x y, value)) row) points
-
-singleDigit :: Parser m Integer
-singleDigit =
-  (char '0' $> 0)
-    <|> (char '1' $> 1)
-    <|> (char '2' $> 2)
-    <|> (char '3' $> 3)
-    <|> (char '4' $> 4)
-    <|> (char '5' $> 5)
-    <|> (char '6' $> 6)
-    <|> (char '7' $> 7)
-    <|> (char '8' $> 8)
-    <|> (char '9' $> 9)
-
-readGrid :: IO (Map Point Integer)
-readGrid = do
-  raw <- simpleParse "data/Year2021/Day9.txt" (some singleDigit `sepEndBy` eol)
-  pure $ toGrid raw
+readSequence :: IO (Map Point Integer)
+readSequence = readGrid singleDigit "data/Year2021/Day9.txt"
 
 isLowPoint :: Map Point Integer -> Point -> Integer -> Bool
 isLowPoint m Point {_x, _y} value =
@@ -61,7 +35,7 @@ isLowPoint m Point {_x, _y} value =
 
 solution1 :: IO Integer
 solution1 = do
-  grid <- readGrid
+  grid <- readSequence
   let lowPoints = Map.filterWithKey (isLowPoint grid) grid
   let risks = (+ 1) <$> Map.elems lowPoints
   pure $ sum risks
@@ -95,7 +69,7 @@ findBasin grid start = go [start] Set.empty
 
 solution2 :: IO Int
 solution2 = do
-  grid <- readGrid
+  grid <- readSequence
   let lowPoints :: Map Point Integer
       lowPoints = Map.filterWithKey (isLowPoint grid) grid
       basins :: [Set Point]
