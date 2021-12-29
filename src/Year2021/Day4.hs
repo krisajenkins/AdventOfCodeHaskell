@@ -34,7 +34,7 @@ import Data.Ix (Ix)
 import Data.Map (Map)
 import qualified Data.Map as Map
 import Data.Maybe (mapMaybe)
-import Safe (headMay, maximumByMay, minimumMay)
+import Safe (maximumByMay, minimumMay)
 import Safe.Foldable (minimumByMay)
 import Text.Megaparsec (count, optional, sepBy, some)
 import Text.Megaparsec.Char (char, eol, space)
